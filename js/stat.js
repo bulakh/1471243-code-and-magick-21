@@ -29,17 +29,36 @@ const renderText = function (ctx, text, y) {
 };
 
 const getMaxElement = function (arr) {
-  let maxElement = -1;
+  let maxElement = arr[0];
   for (let i = 0; i < arr.length; i++) {
-    let value = arr[i];
-    if (value > maxElement) {
-      maxElement = value;
+    if (arr[i] > maxElement) {
+      maxElement = arr[i];
     }
   }
   return maxElement;
 };
 
+
+const renderColumn = function (ctx, x, height, color) {
+  const getBarColor = function (namePlayer) {
+    let randomSaturation = Math.random() * 100;
+    if (namePlayer === `Вы`) {
+      ctx.fillStyle = `rgba(255, 0, 0, 1)`;
+    } else {
+      ctx.fillStyle = `hsl(240, ` + randomSaturation + `%, 50%)`;
+    }
+  };
+  ctx.fillStyle = getBarColor(color);
+  ctx.fillRect(
+      x,
+      CLOUD_Y + TITLE_HEIGHT + FONT_GAP + BAR_MAX_HEIGHT,
+      BAR_WIDTH,
+      -height
+  );
+};
+
 window.renderStatistics = function (ctx, names, times) {
+  const maxTime = getMaxElement(times);
   renderCloud(
       ctx,
       CLOUD_X + CLOUD_GAP,
@@ -62,15 +81,6 @@ window.renderStatistics = function (ctx, names, times) {
       `Список результатов:`,
       TITLE_GAP_Y + TITLE_GAP_Y_BETWEEN
   );
-  const maxTime = getMaxElement(times);
-  const getBarColor = function (namePlayer) {
-    let randomSaturation = Math.random() * 100;
-    if (namePlayer === `Вы`) {
-      ctx.fillStyle = `rgba(255, 0, 0, 1)`;
-    } else {
-      ctx.fillStyle = `hsl(240, ` + randomSaturation + `%, 50%)`;
-    }
-  };
 
   for (let i = 0; i < names.length; i++) {
     let barHeight = (BAR_MAX_HEIGHT * times[i]) / maxTime;
@@ -85,12 +95,11 @@ window.renderStatistics = function (ctx, names, times) {
         CLOUD_X + GAP + (TEXT_WIDTH + BAR_GAP) * i,
         CLOUD_Y + TITLE_HEIGHT + FONT_GAP + BAR_MAX_HEIGHT + FONT_GAP / 4
     );
-    ctx.fillStyle = getBarColor(names[i]);
-    ctx.fillRect(
+    renderColumn(
+        ctx,
         CLOUD_X + GAP + (BAR_WIDTH + BAR_GAP) * i,
-        CLOUD_Y + TITLE_HEIGHT + FONT_GAP + BAR_MAX_HEIGHT,
-        BAR_WIDTH,
-        -barHeight
+        barHeight,
+        names[i]
     );
   }
 };
