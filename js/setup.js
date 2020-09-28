@@ -10,33 +10,33 @@ userDialog.classList.remove(`hidden`);
 
 const similarListElement = userDialog.querySelector(`.setup-similar-list`);
 const similarWizardTemplate = document.querySelector(`#similar-wizard-template`)
-.content
-.querySelector(`.setup-similar-item`);
+  .content
+  .querySelector(`.setup-similar-item`);
 
-const randomItems = function (array) {
+const getRandomArrElement = function (array) {
   return array[Math.floor(Math.random() * array.length)];
 };
 
 const wizards = [
   {
-    name: randomItems(FIRST_NAMES) + ` ` + randomItems(SECOND_NAMES),
-    coatColor: randomItems(COAT_COLOR),
-    eyesColor: randomItems(EYES_COLOR)
+    name: getRandomArrElement(FIRST_NAMES) + ` ` + getRandomArrElement(SECOND_NAMES),
+    coatColor: getRandomArrElement(COAT_COLOR),
+    eyesColor: getRandomArrElement(EYES_COLOR)
   },
   {
-    name: randomItems(FIRST_NAMES) + ` ` + randomItems(SECOND_NAMES),
-    coatColor: randomItems(COAT_COLOR),
-    eyesColor: randomItems(EYES_COLOR)
+    name: getRandomArrElement(FIRST_NAMES) + ` ` + getRandomArrElement(SECOND_NAMES),
+    coatColor: getRandomArrElement(COAT_COLOR),
+    eyesColor: getRandomArrElement(EYES_COLOR)
   },
   {
-    name: randomItems(FIRST_NAMES) + ` ` + randomItems(SECOND_NAMES),
-    coatColor: randomItems(COAT_COLOR),
-    eyesColor: randomItems(EYES_COLOR)
+    name: getRandomArrElement(FIRST_NAMES) + ` ` + getRandomArrElement(SECOND_NAMES),
+    coatColor: getRandomArrElement(COAT_COLOR),
+    eyesColor: getRandomArrElement(EYES_COLOR)
   },
   {
-    name: randomItems(FIRST_NAMES) + ` ` + randomItems(SECOND_NAMES),
-    coatColor: randomItems(COAT_COLOR),
-    eyesColor: randomItems(EYES_COLOR)
+    name: getRandomArrElement(FIRST_NAMES) + ` ` + getRandomArrElement(SECOND_NAMES),
+    coatColor: getRandomArrElement(COAT_COLOR),
+    eyesColor: getRandomArrElement(EYES_COLOR)
   }
 ];
 
