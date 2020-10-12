@@ -28,16 +28,7 @@ const renderText = function (ctx, text, y) {
   ctx.fillText(text, TITLE_GAP_X, y);
 };
 
-const getMaxElement = function (arr) {
-  let maxElement = arr[0];
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] > maxElement) {
-      maxElement = arr[i];
-    }
-  }
-  return maxElement;
-};
-
+const getMaxElement = window.util.getMaxElement;
 
 const renderColumn = function (ctx, x, height, color) {
   const getBarColor = function (namePlayer) {
