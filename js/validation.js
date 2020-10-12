@@ -6,7 +6,7 @@
 
   const userNameInput = window.util.userNameInput;
 
-  userNameInput.addEventListener(`input`, function () {
+  const inputHandler = function () {
     const valueLength = userNameInput.value.length;
 
     if (valueLength < MIN_NAME_LENGTH) {
@@ -16,5 +16,7 @@
     } else {
       userNameInput.setCustomValidity(``);
     }
-  });
+  };
+
+  userNameInput.addEventListener(`input`, inputHandler);
 })();
