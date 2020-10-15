@@ -44,6 +44,7 @@
     wizardEyes,
     wizardFireball,
     userDialog,
+    userForm,
     onCoatChangeColor,
     onEyesChangeColor,
     onFireballChangeColor
