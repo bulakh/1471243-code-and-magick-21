@@ -1,11 +1,11 @@
 'use strict';
 
 (function () {
+  const MAX_SIMILAR_WIZARD_COUNT = 4;
   const userDialog = window.setup.userDialog;
   const getRandomSomeElementsFromArr = window.util.getRandomSomeElementsFromArr;
   const load = window.backend.load;
   const save = window.backend.save;
-  const MAX_SIMILAR_WIZARD_COUNT = 4;
   const form = window.setup.userForm;
 
   const similarListElement = userDialog.querySelector(`.setup-similar-list`);
@@ -23,9 +23,9 @@
     return wizardElement;
   };
 
-  const successHandler = function (wizards) {
+  const successHandler = function (res) {
     const fragment = document.createDocumentFragment();
-    const randomWizards = getRandomSomeElementsFromArr(MAX_SIMILAR_WIZARD_COUNT, wizards);
+    const randomWizards = getRandomSomeElementsFromArr(MAX_SIMILAR_WIZARD_COUNT, res);
 
     for (let i = 0; i < randomWizards.length; i++) {
       fragment.appendChild(renderWizard(randomWizards[i]));
@@ -34,6 +34,7 @@
 
     userDialog.querySelector(`.setup-similar`).classList.remove(`hidden`);
   };
+
 
   const errorHandler = function (errorMessage) {
     const node = document.createElement(`div`);
@@ -50,21 +51,10 @@
   const submitHandler = function (evt) {
     save(new FormData(form), function () {
       userDialog.classList.add(`hidden`);
-    });
+    }, errorHandler);
     evt.preventDefault();
   };
 
   load(successHandler, errorHandler);
   form.addEventListener(`submit`, submitHandler);
-
-  // const hideUserDialog = function () {
-  //   userDialog.classList.add(`hidden`);
-  // };
-
-  // const saveSettings = function (evt) {
-  //   save(new FormData(form), hideUserDialog);
-  //   evt.preventDefault();
-  // };
-
-  // form.addEventListener(`submit`, saveSettings);
 })();
