@@ -28,6 +28,19 @@
       }
       return maxElement;
     },
+    getRandomSomeElementsFromArr(count, arr) {
+      const arrCopy = [...arr];
+      const resultArr = [];
+      for (let i = 0; i < count; i++) {
+        const arrElement = window.util.getRandomArrElement(arrCopy);
+        resultArr.push(arrElement);
+        const index = arrCopy.indexOf(arrElement);
+        if (index > -1) {
+          arrCopy.splice(index, 1);
+        }
+      }
+      return resultArr;
+    },
     userNameInput
   };
 })();
