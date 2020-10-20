@@ -9,25 +9,34 @@
   const wizardEyes = wizardSetup.querySelector(`.wizard-eyes`);
   const wizardFireball = document.querySelector(`.setup-fireball-wrap`);
 
-  const userDialog = document.querySelector(`.setup`);
+  const userDialog = window.render.userDialog;
   const userForm = userDialog.querySelector(`.setup-wizard-form`);
   const coatColorInput = userForm.querySelector(`.coat-color-input`);
   const eyesColorInput = userForm.querySelector(`.eyes-color-input`);
   const fireballColorInput = userForm.querySelector(`.fireball-color-input`);
   const getRandomArrElement = window.util.getRandomArrElement;
 
-  const renderColor = function (thing, color, inputColor) {
-    const colorOfArray = getRandomArrElement(color);
-    thing.style.fill = colorOfArray;
-    inputColor.value = colorOfArray;
+  let wizard = {
+    onCoatChange(color) {
+      return color;
+    },
+    onEyesChange(color) {
+      return color;
+    }
   };
 
   const onCoatChangeColor = function () {
-    renderColor(wizardCoat, COAT_COLOR, coatColorInput);
+    const colorOfArray = getRandomArrElement(COAT_COLOR);
+    wizardCoat.style.fill = colorOfArray;
+    coatColorInput.value = colorOfArray;
+    wizard.onCoatChange(colorOfArray);
   };
 
   const onEyesChangeColor = function () {
-    renderColor(wizardEyes, EYES_COLOR, eyesColorInput);
+    const colorOfArray = getRandomArrElement(EYES_COLOR);
+    wizardEyes.style.fill = colorOfArray;
+    eyesColorInput.value = colorOfArray;
+    wizard.onEyesChange(colorOfArray);
   };
 
   const onFireballChangeColor = function () {
@@ -43,10 +52,10 @@
     wizardCoat,
     wizardEyes,
     wizardFireball,
-    userDialog,
     userForm,
     onCoatChangeColor,
     onEyesChangeColor,
-    onFireballChangeColor
+    onFireballChangeColor,
+    wizard
   };
 })();

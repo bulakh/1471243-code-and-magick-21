@@ -1,38 +1,54 @@
 'use strict';
 
 (function () {
-  const MAX_SIMILAR_WIZARD_COUNT = 4;
-  const userDialog = window.setup.userDialog;
-  const getRandomSomeElementsFromArr = window.util.getRandomSomeElementsFromArr;
+  const userDialog = window.render.userDialog;
+  const userForm = window.setup.userForm;
   const load = window.backend.load;
   const save = window.backend.save;
-  const form = window.setup.userForm;
+  const renderWizards = window.render.renderWizards;
+  const setDebounce = window.debounce.setDebounce;
 
-  const similarListElement = userDialog.querySelector(`.setup-similar-list`);
-  const similarWizardTemplate = document.querySelector(`#similar-wizard-template`)
-    .content
-    .querySelector(`.setup-similar-item`);
+  let coatColor = `rgb(101, 137, 164)`;
+  let eyesColor = `black`;
+  let wizards = [];
 
-  const renderWizard = function (wizard) {
-    const wizardElement = similarWizardTemplate.cloneNode(true);
+  const getRank = function (wizard) {
+    let rank = 0;
 
-    wizardElement.querySelector(`.setup-similar-label`).textContent = wizard.name;
-    wizardElement.querySelector(`.wizard-coat`).style.fill = wizard.colorCoat;
-    wizardElement.querySelector(`.wizard-eyes`).style.fill = wizard.colorEyes;
+    if (wizard.colorCoat === coatColor) {
+      rank += 2;
+    }
+    if (wizard.colorEyes === eyesColor) {
+      rank += 1;
+    }
 
-    return wizardElement;
+    return rank;
   };
 
-  const successHandler = function (res) {
-    const fragment = document.createDocumentFragment();
-    const randomWizards = getRandomSomeElementsFromArr(MAX_SIMILAR_WIZARD_COUNT, res);
+  const updateWizards = function () {
+    renderWizards(wizards.slice().
+    sort(function (left, right) {
+      let rankDiff = getRank(right) - getRank(left);
+      if (rankDiff === 0) {
+        rankDiff = wizards.indexOf(left) - wizards.indexOf(right);
+      }
+      return rankDiff;
+    }));
+  };
 
-    for (let i = 0; i < randomWizards.length; i++) {
-      fragment.appendChild(renderWizard(randomWizards[i]));
-    }
-    similarListElement.appendChild(fragment);
+  window.setup.wizard.onCoatChange = setDebounce(function (color) {
+    coatColor = color;
+    updateWizards();
+  });
 
-    userDialog.querySelector(`.setup-similar`).classList.remove(`hidden`);
+  window.setup.wizard.onEyesChange = setDebounce(function (color) {
+    eyesColor = color;
+    updateWizards();
+  });
+
+  const successHandler = function (data) {
+    wizards = data;
+    updateWizards();
   };
 
 
@@ -49,12 +65,12 @@
   };
 
   const submitHandler = function (evt) {
-    save(new FormData(form), function () {
+    save(new FormData(userForm), function () {
       userDialog.classList.add(`hidden`);
     }, errorHandler);
     evt.preventDefault();
   };
 
   load(successHandler, errorHandler);
-  form.addEventListener(`submit`, submitHandler);
+  userForm.addEventListener(`submit`, submitHandler);
 })();
