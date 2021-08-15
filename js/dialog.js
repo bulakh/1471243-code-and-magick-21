@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  const userDialog = window.setup.userDialog;
+  const userDialog = window.render.userDialog;
   const userDialogOpen = document.querySelector(`.setup-open`);
   const userDialogIcon = document.querySelector(`.setup-open-icon`);
   const userDialogClose = userDialog.querySelector(`.setup-close`);

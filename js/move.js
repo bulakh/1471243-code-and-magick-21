@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  const userDialog = window.setup.userDialog;
+  const userDialog = window.render.userDialog;
 
   const dialogHandle = userDialog.querySelector(`.upload`);
 
